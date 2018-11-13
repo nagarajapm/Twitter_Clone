@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.Category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Test.dbo.Customers' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Customers">
+          <Property Name="Custid" Type="int" />
+          <Property Name="Custname" Type="varchar" MaxLength="100" />
+          <Property Name="CustAddress" Type="varchar" MaxLength="500" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="Salary" Type="int" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.Emp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.FOLLOWING' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FOLLOWING">
+          <Key>
+            <PropertyRef Name="User_ID" />
+            <PropertyRef Name="Following_ID" />
+          </Key>
+          <Property Name="User_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Following_ID" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.LeaveDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Joined" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.Product_Details' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.Supplier_info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.TWEET' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TWEET">
+          <Key>
+            <PropertyRef Name="Tweet_ID" />
+            <PropertyRef Name="User_ID" />
+            <PropertyRef Name="Message" />
+            <PropertyRef Name="Created" />
+          </Key>
+          <Property Name="Tweet_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="140" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Person_Following">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1" />
+          <End Role="FOLLOWING" Type="Self.FOLLOWING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="FOLLOWING">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Following_Followingid">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1" />
+          <End Role="FOLLOWING" Type="Self.FOLLOWING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="FOLLOWING">
+              <PropertyRef Name="Following_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Tweet">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1" />
+          <End Role="TWEET" Type="Self.TWEET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="TWEET">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="PERSON" EntityType="Self.PERSON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FOLLOWING" EntityType="Self.FOLLOWING" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[FOLLOWING].[User_ID] AS [User_ID], 
+[FOLLOWING].[Following_ID] AS [Following_ID]
+FROM [dbo].[FOLLOWING] AS [FOLLOWING]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TWEET" EntityType="Self.TWEET" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[TWEET].[Tweet_ID] AS [Tweet_ID], 
+[TWEET].[User_ID] AS [User_ID], 
+[TWEET].[Message] AS [Message], 
+[TWEET].[Created] AS [Created]
+FROM [dbo].[TWEET] AS [TWEET]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Person_Following" Association="Self.FK_Person_Following">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="FOLLOWING" EntitySet="FOLLOWING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Following_Followingid" Association="Self.FK_Person_Following_Followingid">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="FOLLOWING" EntitySet="FOLLOWING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Tweet" Association="Self.FK_Person_Tweet">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="TWEET" EntitySet="TWEET" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Joined" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TWEETs" Relationship="Self.FK_Person_Tweet" FromRole="PERSON" ToRole="TWEET" />
+          <NavigationProperty Name="Following" Relationship="Self.FOLLOWING" FromRole="PERSON" ToRole="PERSON1" />
+          <NavigationProperty Name="Followers" Relationship="Self.FOLLOWING" FromRole="PERSON1" ToRole="PERSON" />
+        </EntityType>
+        <EntityType Name="TWEET">
+          <Key>
+            <PropertyRef Name="Tweet_ID" />
+            <PropertyRef Name="User_ID" />
+            <PropertyRef Name="Message" />
+            <PropertyRef Name="Created" />
+          </Key>
+          <Property Name="Tweet_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="140" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PERSON" Relationship="Self.FK_Person_Tweet" FromRole="TWEET" ToRole="PERSON" />
+        </EntityType>
+        <Association Name="FK_Person_Tweet">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1" />
+          <End Role="TWEET" Type="Self.TWEET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="TWEET">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FOLLOWING">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="*" />
+          <End Role="PERSON1" Type="Self.PERSON" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="TwitterEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="People" EntityType="Self.PERSON" />
+          <EntitySet Name="TWEETs" EntityType="Self.TWEET" />
+          <AssociationSet Name="FK_Person_Tweet" Association="Self.FK_Person_Tweet">
+            <End Role="PERSON" EntitySet="People" />
+            <End Role="TWEET" EntitySet="TWEETs" />
+          </AssociationSet>
+          <AssociationSet Name="FOLLOWING" Association="Self.FOLLOWING">
+            <End Role="PERSON" EntitySet="People" />
+            <End Role="PERSON1" EntitySet="People" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TwitterEntities">
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="TestModel.PERSON">
+              <MappingFragment StoreEntitySet="PERSON">
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Joined" ColumnName="Joined" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TWEETs">
+            <EntityTypeMapping TypeName="TestModel.TWEET">
+              <MappingFragment StoreEntitySet="TWEET">
+                <ScalarProperty Name="Tweet_ID" ColumnName="Tweet_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FOLLOWING" TypeName="TestModel.FOLLOWING" StoreEntitySet="FOLLOWING">
+            <EndProperty Name="PERSON">
+              <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+            </EndProperty>
+            <EndProperty Name="PERSON1">
+              <ScalarProperty Name="User_ID" ColumnName="Following_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
